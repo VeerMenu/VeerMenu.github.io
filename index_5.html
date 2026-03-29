@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEER Menu</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0ebe0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .menu-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .menu-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .btn-area {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  .btn-area:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* 
+    Image is 1405x2000
+    Food Menu brush: roughly y=37% to y=50%
+    Alcohol Menu brush: roughly y=58% to y=71%
+    Non-Alcoholic brush: roughly y=79% to y=92%
+  */
+
+  .btn-food {
+    top: 28.7%;
+    height: 11.3%;
+  }
+
+  .btn-alcohol {
+    top: 52.1%;
+    height: 11.3%;
+  }
+
+  .btn-nonalc {
+    top: 75.6%;
+    height: 11.3%;
+  }
+</style>
+</head>
+<body>
+
+<div class="menu-container">
+  <img class="menu-img" src="VEER_Menu.png" alt="VEER Menu" id="menuImg">
+
+  <a class="btn-area btn-food" id="btn1"
+     href="https://drive.google.com/file/d/1cFDBBx1M2nJbPVhVMR0QvOhb65gxqlCn/preview"
+     target="_blank"></a>
+
+  <a class="btn-area btn-alcohol" id="btn2"
+     href="https://drive.google.com/file/d/1kwgnq0KFxn1KTxlrkcQeZpD3Kos9tV4q/preview"
+     target="_blank"></a>
+
+  <a class="btn-area btn-nonalc" id="btn3"
+     href="https://drive.google.com/file/d/1ys977q3OZDpDjmnNO2Cbsf0jr6TexxJ_/preview"
+     target="_blank"></a>
+</div>
+
+<script>
+  // Original image dimensions: 1405 x 2000
+  // Brush stroke positions in original image (pixels):
+  // Food Menu:         y=574  to y=800   (top=574, height=226)
+  // Alcohol Menu:      y=1043 to y=1270  (top=1043, height=227)
+  // Non-Alcoholic:     y=1513 to y=1739  (top=1513, height=226)
+  // x: from ~80px to ~1325px
+
+  const IMG_H = 2000;
+  const IMG_W = 1405;
+
+  const buttons = [
+    { id: 'btn1', top: 574,  height: 226, left: 80, width: 1245 },
+    { id: 'btn2', top: 1043, height: 227, left: 80, width: 1245 },
+    { id: 'btn3', top: 1513, height: 226, left: 80, width: 1245 },
+  ];
+
+  function positionButtons() {
+    const img = document.getElementById('menuImg');
+    const displayW = img.offsetWidth;
+    const displayH = img.offsetHeight;
+    const scaleX = displayW / IMG_W;
+    const scaleH = displayH / IMG_H;
+
+    buttons.forEach(b => {
+      const el = document.getElementById(b.id);
+      el.style.top    = (b.top    * scaleH) + 'px';
+      el.style.height = (b.height * scaleH) + 'px';
+      el.style.left   = (b.left   * scaleX) + 'px';
+      el.style.width  = (b.width  * scaleX) + 'px';
+    });
+  }
+
+  const img = document.getElementById('menuImg');
+  img.addEventListener('load', positionButtons);
+  window.addEventListener('resize', positionButtons);
+  if (img.complete) positionButtons();
+</script>
+
+</body>
+</html>
