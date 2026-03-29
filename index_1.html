@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>VEER Menu</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+  }
+
+  /* ── COVER PAGE ── */
+  #cover-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0ebe0;
+  }
+
+  .cover-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .cover-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Transparent buttons on cover */
+  .cover-btn {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: rgba(255,255,255,0.1);
+  }
+
+  .cover-btn:hover, .cover-btn:active {
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ── MENU PAGES ── */
+  .menu-page {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    background: #1a1a1a;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-page.active {
+    display: flex;
+  }
+
+  /* Top bar */
+  .top-bar {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .back-btn {
+    background: none;
+    border: 1.5px solid #4a8fa3;
+    color: #4a8fa3;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover {
+    background: #4a8fa3;
+    color: white;
+  }
+
+  .page-indicator {
+    color: #c4973a;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* Page images */
+  .menu-images {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .menu-images img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Nav arrows for multi-page menus */
+  .page-nav {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    background: #1a1a1a;
+  }
+
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: none;
+  }
+
+  .nav-dot.active {
+    background: #4a8fa3;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER PAGE ══ -->
+<div id="cover-page">
+  <div class="cover-wrap" id="coverWrap">
+    <img src="menu_cover.png" alt="VEER Menu" id="coverImg">
+    <a class="cover-btn" id="foodBtn" onclick="openMenu('food')"></a>
+    <a class="cover-btn" id="alcoholBtn" onclick="openMenu('alcohol')"></a>
+    <a class="cover-btn" id="nonalcBtn" onclick="openMenu('nonalc')"></a>
+  </div>
+</div>
+
+<!-- ══ FOOD MENU PAGE ══ -->
+<div class="menu-page" id="food-page">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goBack()">← BACK</button>
+    <span class="page-indicator" id="food-indicator">1 / 2</span>
+  </div>
+  <div class="menu-images" id="food-images">
+    <img src="food_p1.jpeg" alt="Food Menu Page 1" id="food-img-1">
+    <img src="food_p2.jpeg" alt="Food Menu Page 2" id="food-img-2" style="display:none">
+  </div>
+  <div class="page-nav">
+    <button class="nav-dot active" onclick="showFoodPage(1)" id="food-dot-1"></button>
+    <button class="nav-dot" onclick="showFoodPage(2)" id="food-dot-2"></button>
+  </div>
+</div>
+
+<!-- ══ ALCOHOL MENU PAGE ══ -->
+<div class="menu-page" id="alcohol-page">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goBack()">← BACK</button>
+    <span class="page-indicator" id="alcohol-indicator">1 / 2</span>
+  </div>
+  <div class="menu-images" id="alcohol-images">
+    <img src="alcohol_p1.jpeg" alt="Alcohol Menu Page 1" id="alcohol-img-1">
+    <img src="alcohol_p2.jpeg" alt="Alcohol Menu Page 2" id="alcohol-img-2" style="display:none">
+  </div>
+  <div class="page-nav">
+    <button class="nav-dot active" onclick="showAlcoholPage(1)" id="alcohol-dot-1"></button>
+    <button class="nav-dot" onclick="showAlcoholPage(2)" id="alcohol-dot-2"></button>
+  </div>
+</div>
+
+<!-- ══ NON-ALCOHOLIC MENU PAGE ══ -->
+<div class="menu-page" id="nonalc-page">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goBack()">← BACK</button>
+    <span class="page-indicator">1 / 1</span>
+  </div>
+  <div class="menu-images">
+    <img src="nonalc_p1.jpeg" alt="Non-Alcoholic Menu">
+  </div>
+</div>
+
+<script>
+  // ── Image dimensions: 1123 x 1600
+  // Brush positions (px in original):
+  // Food:    y=459-640   (top=28.69%, h=11.31%)
+  // Alcohol: y=835-1015  (top=52.19%, h=11.25%)
+  // NonAlc:  y=1210-1391 (top=75.62%, h=11.31%)
+  // x: full width (0% to 100%)
+
+  const IMG_H = 1600;
+  const IMG_W = 1123;
+
+  const btnDefs = [
+    { id: 'foodBtn',    top: 459,  h: 181, left: 50,  w: 1023 },
+    { id: 'alcoholBtn', top: 835,  h: 180, left: 50,  w: 1023 },
+    { id: 'nonalcBtn',  top: 1210, h: 181, left: 50,  w: 1023 },
+  ];
+
+  function positionButtons() {
+    const img = document.getElementById('coverImg');
+    const dW = img.offsetWidth;
+    const dH = img.offsetHeight;
+    const sX = dW / IMG_W;
+    const sY = dH / IMG_H;
+
+    btnDefs.forEach(b => {
+      const el = document.getElementById(b.id);
+      el.style.top    = (b.top  * sY) + 'px';
+      el.style.height = (b.h    * sY) + 'px';
+      el.style.left   = (b.left * sX) + 'px';
+      el.style.width  = (b.w    * sX) + 'px';
+    });
+  }
+
+  const coverImg = document.getElementById('coverImg');
+  coverImg.addEventListener('load', positionButtons);
+  window.addEventListener('resize', positionButtons);
+  if (coverImg.complete) positionButtons();
+
+  // ── Navigation ──
+  function openMenu(type) {
+    document.getElementById('cover-page').style.display = 'none';
+    document.getElementById(type + '-page').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goBack() {
+    document.querySelectorAll('.menu-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('cover-page').style.display = 'flex';
+    window.scrollTo(0, 0);
+  }
+
+  // ── Food page nav ──
+  let foodCurrent = 1;
+  function showFoodPage(n) {
+    document.getElementById('food-img-1').style.display = n === 1 ? 'block' : 'none';
+    document.getElementById('food-img-2').style.display = n === 2 ? 'block' : 'none';
+    document.getElementById('food-dot-1').classList.toggle('active', n === 1);
+    document.getElementById('food-dot-2').classList.toggle('active', n === 2);
+    document.getElementById('food-indicator').textContent = n + ' / 2';
+    foodCurrent = n;
+    window.scrollTo(0, 0);
+  }
+
+  // ── Alcohol page nav ──
+  let alcoholCurrent = 1;
+  function showAlcoholPage(n) {
+    document.getElementById('alcohol-img-1').style.display = n === 1 ? 'block' : 'none';
+    document.getElementById('alcohol-img-2').style.display = n === 2 ? 'block' : 'none';
+    document.getElementById('alcohol-dot-1').classList.toggle('active', n === 1);
+    document.getElementById('alcohol-dot-2').classList.toggle('active', n === 2);
+    document.getElementById('alcohol-indicator').textContent = n + ' / 2';
+    alcoholCurrent = n;
+    window.scrollTo(0, 0);
+  }
+
+  // ── Swipe support ──
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  });
+
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) < Math.abs(dy) || Math.abs(dx) < 50) return;
+
+    if (document.getElementById('food-page').classList.contains('active')) {
+      if (dx < 0 && foodCurrent === 1) showFoodPage(2);
+      if (dx > 0 && foodCurrent === 2) showFoodPage(1);
+    }
+    if (document.getElementById('alcohol-page').classList.contains('active')) {
+      if (dx < 0 && alcoholCurrent === 1) showAlcoholPage(2);
+      if (dx > 0 && alcoholCurrent === 2) showAlcoholPage(1);
+    }
+  });
+</script>
+
+</body>
+</html>
